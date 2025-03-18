@@ -1,3 +1,121 @@
+// // Bookings.jsx
+// import React, { useContext, useEffect, useState } from "react";
+// import { useParams, useNavigate } from "react-router-dom";
+// import { AppContext } from "../context/AppContext.jsx";
+// import ChefHeader from "../components/ChefHeader";
+// import MenuHighlights from "../components/MenuHighlights";
+// import ReviewsSection from "../components/ReviewSection";
+// import BookingCard from "../components/BookingCard";
+// import RelatedCooks from "../components/RelatedCooks";
+// import { toast } from "react-toastify";
+
+// const Bookings = () => {
+//   const { cookId } = useParams();
+//   const navigate = useNavigate();
+//   const { cooks, currencySymbol, backendUrl, token, getCooksData } =
+//     useContext(AppContext);
+//   const [cookInfo, setCookInfo] = useState(null);
+//   const [loading, setLoading] = useState(true);
+//   const [relatedCooks, setRelatedCooks] = useState([]);
+
+//   const fetchCookInfo = () => {
+//     setLoading(true);
+//     try {
+//       const foundCook = cooks.find((cook) => cook._id === cookId);
+//       if (foundCook) {
+//         setCookInfo(foundCook);
+//         // Find related cooks with the same specialty
+//         const related = cooks
+//           .filter(
+//             (cook) =>
+//               cook._id !== cookId && cook.speciality === foundCook.speciality
+//           )
+//           .slice(0, 5); // Limit to 3 related cooks
+//         console.log(cookId);
+//         setRelatedCooks(related);
+//       } else {
+//         console.error("Cook not found");
+//       }
+//     } catch (error) {
+//       console.error("Error fetching cook info:", error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // const bookAcook = async () => {
+//   //   if (!token) {
+//   //     toast.warn("Login to Book a Cook");
+//   //     return navigate("/login");
+//   //   }
+//   // };
+
+//   useEffect(() => {
+//     if (cooks && cooks.length > 0 && cookId) {
+//       fetchCookInfo();
+//     }
+//   }, [cooks, cookId]);
+
+//   // Scroll to top when component mounts or when the cookId parameter changes
+//   useEffect(() => {
+//     window.scrollTo(0, 0);
+//   }, [cookId]);
+
+//   if (loading) {
+//     return (
+//       <div className="flex justify-center items-center min-h-screen">
+//         <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-orange-500"></div>
+//       </div>
+//     );
+//   }
+
+//   // Handle the case where cook info is not found
+//   if (!cookInfo) {
+//     return (
+//       <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center">
+//         <h2 className="text-2xl font-bold text-gray-800 mb-4">
+//           Chef Not Found
+//         </h2>
+//         <p className="text-gray-600 mb-6">
+//           We couldn't find the chef you're looking for.
+//         </p>
+//         <button
+//           onClick={() => navigate("/cooks")}
+//           className="px-6 py-2 bg-primary text-white rounded-full hover:bg-primary transition-colors"
+//         >
+//           Browse All Chefs
+//         </button>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="max-w-7xl mx-auto px-4 py-8">
+//       {/* Chef Profile Header */}
+//       <ChefHeader cookInfo={cookInfo} />
+
+//       {/* Booking Section */}
+//       <div className="grid md:grid-cols-3 gap-8">
+//         {/* Menu Highlights and Reviews */}
+//         <div className="md:col-span-2">
+//           <MenuHighlights />
+//           <ReviewsSection />
+
+//           {/* Related Cooks Section */}
+//           <RelatedCooks relatedCooks={relatedCooks} cookId={cookId} />
+//         </div>
+
+//         {/* Booking Card */}
+//         <div className="md:col-span-1">
+//           <BookingCard cookInfo={cookInfo} />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Bookings;
+
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
@@ -18,8 +136,6 @@ const Bookings = () => {
   const [cookSlot, setCookSlot] = useState([]);
   const [slotIndex, setSlotIndex] = useState(0);
   const [bookingTime, setBookingTime] = useState("");
-  const [bookingId, setBookingId] = useState(null);
-  const [isBooked, setIsBooked] = useState(false);
 
   const fetchCookInfo = async () => {
     const cookInfo = cooks.find((cook) => cook._id === cookId);
@@ -143,9 +259,8 @@ const Bookings = () => {
       if (data.success) {
         toast.success(data.message);
         getCooksData();
-        setBookingId(data.bookingId);
-        setIsBooked(true);
         console.log("Cook Booked Successfully");
+        navigate("/mybookings");
       } else {
         toast.error(data.message);
       }
@@ -153,44 +268,6 @@ const Bookings = () => {
       console.error("Error booking cook:", error);
       toast.error(error.response?.data?.message || "Failed to book cook");
     }
-  };
-
-  const cancelBooking = async () => {
-    if (!token || !bookingId) {
-      toast.warn("No active booking to cancel");
-      return;
-    }
-
-    try {
-      const { data } = await axios.post(
-        backendUrl + "/api/user/cancel-booking",
-        { bookingId },
-        { headers: { token } }
-      );
-      
-      if (data.success) {
-        toast.success(data.message);
-        getCooksData();
-        setBookingId(null);
-        setIsBooked(false);
-        setBookingTime("");
-        console.log("Booking cancelled successfully");
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      console.error("Error cancelling booking:", error);
-      toast.error(error.response?.data?.message || "Failed to cancel booking");
-    }
-  };
-
-  const proceedToPayment = () => {
-    if (!bookingId) {
-      toast.warn("Please complete booking first");
-      return;
-    }
-    
-    navigate(`/payment/${bookingId}`);
   };
 
   useEffect(() => {
@@ -273,13 +350,11 @@ const Bookings = () => {
             {cookSlot.length > 0 && cookSlot[slotIndex] && cookSlot[slotIndex].length > 0 ?
               cookSlot[slotIndex].map((item, index) => (
                 <p
-                  onClick={() => !isBooked && setBookingTime(item.time)}
-                  className={`text-sm font-light flex-shrink-0 px-5 py-3 rounded-full ${
+                  onClick={() => setBookingTime(item.time)}
+                  className={`text-sm font-light flex-shrink-0 px-5 py-3 rounded-full cursor-pointer  ${
                     item.time === bookingTime
-                      ? "bg-primary text-white cursor-pointer"
-                      : isBooked
-                      ? "text-gray-300 border border-gray-200 cursor-not-allowed"
-                      : "text-gray-400 border border-gray-300 cursor-pointer"
+                      ? "bg-primary text-white"
+                      : "text-gray-400 border border-gray-300"
                   }`}
                   key={index}
                 >
@@ -289,31 +364,12 @@ const Bookings = () => {
                 <p className="text-sm text-gray-500">No available slots for this day</p>
               )}
           </div>
-          <div className="flex gap-3 mt-3">
-            {!isBooked ? (
-              <button
-                onClick={bookACook}
-                className="bg-primary rounded-full px-5 py-3 text-white hover:bg-primary/90 transition-colors"
-              >
-                Book Now
-              </button>
-            ) : (
-              <>
-                <button
-                  onClick={cancelBooking}
-                  className="bg-red-500 rounded-full px-5 py-3 text-white hover:bg-red-600 transition-colors"
-                >
-                  Cancel Booking
-                </button>
-                <button
-                  onClick={proceedToPayment}
-                  className="bg-primary rounded-full px-5 py-3 text-white hover:bg-primary/90 transition-colors"
-                >
-                  Pay Now
-                </button>
-              </>
-            )}
-          </div>
+          <button
+            onClick={bookACook}
+            className="bg-primary rounded-full px-5 py-3 mt-3 text-white"
+          >
+            Book Now
+          </button>
         </div>
         <RelatedCooks />
       </div>
