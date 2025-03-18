@@ -37,7 +37,7 @@ const Navbar = () => {
   return (
     <div className="bg-white shadow-md px-6 py-4 flex justify-between items-center sticky top-0 z-10">
       <div className="flex items-center gap-3">
-        <img src={assets.admin_logo} alt="Admin Logo" className="h-10 w-auto" />
+        <img src={assets.admin_logo} alt="Admin Logo" className="h-20 w-auto" />
         <div className="flex flex-col">
           <p className="font-bold text-lg text-gray-800">Admin Dashboard</p>
           <div className="border border-primary w-14 text-center p-0.5 rounded-full">
@@ -49,12 +49,12 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center gap-4">
-        {/* <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-6">
           <a href="#" className="text-gray-600 hover:text-primary transition-colors">Dashboard</a>
           <a href="#" className="text-gray-600 hover:text-primary transition-colors">Orders</a>
           <a href="#" className="text-gray-600 hover:text-primary transition-colors">Users</a>
           <a href="#" className="text-gray-600 hover:text-primary transition-colors">Settings</a>
-        </div> */}
+        </div>
 
         <div className="flex items-center gap-3">
           <div className="hidden sm:block">

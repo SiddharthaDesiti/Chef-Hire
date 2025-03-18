@@ -7,7 +7,7 @@ const Header = () => {
       {/* Left Content Section */}
       <div className="w-full md:w-1/2 flex flex-col justify-center gap-6 py-8 md:py-12 lg:py-16">
         <h1 className="text-3xl md:text-4xl lg:text-5xl text-white font-semibold leading-tight">
-          Book a Trusted Cook From <br className="hidden sm:block" /> CookZy
+          Book a Trusted Cook From <br className="hidden sm:block" /> ChefHire
         </h1>
         
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 text-white">

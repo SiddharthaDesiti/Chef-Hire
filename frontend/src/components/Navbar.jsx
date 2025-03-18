@@ -26,7 +26,7 @@ const Navbar = () => {
           navigate("/");
           scrollTo(0, 0);
         }}
-        className="w-16 cursor-pointer"
+        className="w-20 cursor-pointer"
         src={assets.logo}
         alt="Logo"
       />

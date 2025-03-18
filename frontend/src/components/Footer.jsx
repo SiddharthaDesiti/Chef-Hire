@@ -72,7 +72,7 @@ const Footer = () => {
                   <MdLocationOn size={16} />
                 </div>
                 <div>
-                  <span className="text-gray-600 text-md">131, Sutlej Hostel, JNU, New Delhi</span>
+                  <span className="text-gray-600 text-md">Nerul, Navi Mumbai</span>
                   <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="flex items-center text-[#FF5200] text-xs mt-1 hover:underline">
                     <MdDirections size={12} className="mr-1" /> Get directions
                   </a>
@@ -84,7 +84,7 @@ const Footer = () => {
                   <MdPhone size={16} />
                 </div>
                 <a href="tel:+916398937329" className="text-gray-600 hover:text-[#FF5200] transition-colors text-md">
-                  +91 6398937329
+                  +91 9372xxxx51
                 </a>
               </li>
               
@@ -93,7 +93,7 @@ const Footer = () => {
                   <MdEmail size={16} />
                 </div>
                 <a href="mailto:support@cookzy.com" className="text-gray-600 hover:text-[#FF5200] transition-colors text-md">
-                  support@cookzy.com
+                  support@chefhire.com
                 </a>
               </li>
               
@@ -141,7 +141,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-gray-200 mt-8 text-center md:flex md:justify-between md:items-center">
           <p className="text-gray-500 text-md">
-            &copy; {currentYear} <span className="text-[#FF5200] font-medium">CookZy</span>. All rights reserved.
+            &copy; {currentYear} <span className="text-[#FF5200] font-medium">ChefHire</span>. All rights reserved.
           </p>
           <div className="mt-4 md:mt-0">
             <ul className="flex justify-center md:justify-end space-x-6">
